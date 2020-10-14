@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# This bash file associates with SolveCryptogram.py v0.08 dated 14 Oct 20
+# See https://github.com/rsnbrgr/SolveCryptogram for details
+
+cd /home/rob/.local/lib/python2.7/site-packages
+
+# First let's clean up any temp files
+rm temp.txt
+rm plaintext.txt
+rm substitutions.txt
+
+# Now let's (try to) solve the cryptogram
+python2 sub_solver.py -c corpus.txt cryptogram.txt >temp.txt
+
+# Now let's isolate the solved text
+# If grep can do it better, well great, but this is how I taught it in CCAF
+grep -A1 Plaintext: <temp.txt | grep -v Plaintext: >plaintext.txt
+
+# Now let's isolate the substitution set
+grep -A6 Substitutions: <temp.txt | grep -v Substitutions: >substitutions.txt
